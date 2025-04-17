@@ -1,11 +1,13 @@
-let tablinks = document.querySelector(".tab-links");
-let tabcontents = document.querySelector(".tab-contents");
+let tablinks = document.querySelectorAll(".tab-links");
+let tabcontents = document.querySelectorAll(".tab-contents");
 
-function opentab(tabname){
-  for ( const tablink of tablinks) {
-    tablink.classList.remove("active-link");
-  }
-  for ( const tabcontent of tabcontents) {
-    tabcontent.classList.remove("active-tab");
-  }
-}
+tablinks.forEach((links, index) => {
+  links.addEventListener("click", function () {
+    tablinks.forEach((tab) => tab.classList.remove("active-links"));
+    links.classList.add("active-links");
+    tabcontents.forEach(function (e) {
+      e.classList.remove("active-tab");
+    });
+    tabcontents[index].classList.add("active-tab");
+  });
+});
