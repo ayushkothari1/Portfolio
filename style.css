@@ -161,7 +161,7 @@ nav ul li a:hover::after {
 
 /* ----------services------------- */
 
-#services {
+#projects {
   padding: 30px 0;
   margin-left: 10%;
 }
@@ -170,6 +170,7 @@ nav ul li a:hover::after {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-gap: 50px;
   margin-top: 50px;
+  margin-right: 2%;
 }
 .services-list div {
   background: #262626;
@@ -177,4 +178,15 @@ nav ul li a:hover::after {
   font-size: 13px;
   font-weight: 300;
   border-radius: 10px;
+  text-align: center;
+}
+
+.services-list div h2 {
+  font-size: 28px;
+}
+.services-list div img {
+  width: 100%;
+  border-radius: 2%;
+  margin-top: 10%;
+  /* height: 200px; */
 }
