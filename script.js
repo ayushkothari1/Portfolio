@@ -2,15 +2,10 @@
    script.js – Portfolio JavaScript
    ============================================================ */
 
-// ─── EMAILJS INIT ────────────────────────────────────────────
-// TODO: Replace these three values with your own from emailjs.com
-const EMAILJS_PUBLIC_KEY  = 'cNa78FiWfOUSHQE0Q';   // Account → API Keys
-const EMAILJS_SERVICE_ID  = 'service_kyo04yj';   // Email Services tab
-const EMAILJS_TEMPLATE_ID = 'template_ztrh2mm';  // Email Templates tab
-
-(function () {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-})();
+// ─── FORMSUBMIT CONFIG ───────────────────────────────────────
+// Emails go to pahadiayush61@gmail.com via Formsubmit.co (no account needed)
+// First submission triggers a one-time activation email — just click the link!
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/pahadiayush61@gmail.com';
 
 // ─── CURSOR GLOW ────────────────────────────────────────────
 const glow = document.getElementById('cursorGlow');
@@ -47,7 +42,6 @@ const phrases = [
   'React Specialist',
   'UI / UX Enthusiast',
   'Open-Source Contributor',
-  'JavaScript Lover ❤️',
 ];
 let pIdx = 0, cIdx = 0, deleting = false;
 const typedEl = document.getElementById('typedText');
@@ -202,49 +196,71 @@ catBtns.forEach(btn => {
   });
 });
 
-// ─── CONTACT FORM (EmailJS) ──────────────────────────────────
+// ─── CONTACT FORM (Formsubmit.co) ───────────────────────────
 const form        = document.getElementById('contactForm');
 const submitBtn   = document.getElementById('submitBtn');
 const formSuccess = document.getElementById('formSuccess');
+const formError   = document.getElementById('formError');
 
-form.addEventListener('submit', e => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
   const btnText   = submitBtn.querySelector('.btn-text');
   const btnLoader = submitBtn.querySelector('.btn-loader');
 
+  // Hide any previous messages
+  formSuccess.hidden = true;
+  formError.hidden   = true;
+
+  // Show loading state
   btnText.hidden     = true;
   btnLoader.hidden   = false;
   submitBtn.disabled = true;
 
-  // Build the template params — these names must match your EmailJS template
-  const templateParams = {
-    from_name:  form.name.value,
-    from_email: form.email.value,
-    subject:    form.subject.value,
-    message:    form.message.value,
-    to_email:   'pahadiayush61@gmail.com',  // recipient
-  };
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method:  'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept':       'application/json',
+      },
+      body: JSON.stringify({
+        name:     form.name.value,
+        email:    form.email.value,
+        _replyto: form.email.value,  // so you can hit Reply in Gmail
+        subject:  form.subject.value,
+        message:  form.message.value,
+        _subject: '📩 New message from portfolio: ' + form.subject.value,
+      }),
+    });
 
-  emailjs
-    .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => {
+    const data = await res.json();
+
+    // Restore button
+    btnText.hidden     = false;
+    btnLoader.hidden   = true;
+    submitBtn.disabled = false;
+
+    if (data.success === 'true' || data.success === true) {
       // ✅ Success
-      btnText.hidden     = false;
-      btnLoader.hidden   = true;
-      submitBtn.disabled = false;
       formSuccess.hidden = false;
       form.reset();
-      setTimeout(() => { formSuccess.hidden = true; }, 5000);
-    })
-    .catch(err => {
-      // ❌ Error — show actual error details for debugging
-      console.error('EmailJS error:', err);
-      const errMsg = err?.text || err?.message || JSON.stringify(err);
-      btnText.hidden     = false;
-      btnLoader.hidden   = true;
-      submitBtn.disabled = false;
-      alert('Send failed: ' + errMsg + '\n\nEmail directly: pahadiayush61@gmail.com');
-    });
+      setTimeout(() => { formSuccess.hidden = true; }, 6000);
+    } else {
+      // ❌ Formsubmit returned an error
+      formError.hidden    = false;
+      formError.innerHTML = '❌ Something went wrong. Email me at <a href="mailto:pahadiayush61@gmail.com">pahadiayush61@gmail.com</a>';
+      setTimeout(() => { formError.hidden = true; }, 8000);
+    }
+  } catch (err) {
+    // ❌ Network or fetch error
+    console.error('Form error:', err);
+    btnText.hidden     = false;
+    btnLoader.hidden   = true;
+    submitBtn.disabled = false;
+    formError.hidden   = false;
+    formError.innerHTML = '❌ Network error. Email me at <a href="mailto:pahadiayush61@gmail.com">pahadiayush61@gmail.com</a>';
+    setTimeout(() => { formError.hidden = true; }, 8000);
+  }
 });
 
 // ─── FOOTER YEAR ────────────────────────────────────────────

@@ -199,6 +199,26 @@ body {
   font-weight: 700;
   color: #fff;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.nav-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(135deg, var(--accent), var(--cyan)) border-box;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.45);
+  transition: transform var(--transition), box-shadow var(--transition);
+  flex-shrink: 0;
+}
+.nav-logo:hover .nav-avatar {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.7);
 }
 .logo-bracket {
   color: var(--accent2);
@@ -942,6 +962,20 @@ body {
   padding: 1rem;
   text-align: center;
   font-weight: 500;
+}
+
+.form-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+.form-error a {
+  color: #f87171;
+  text-decoration: underline;
 }
 
 /* ─── FOOTER ─────────────────────────────────────────── */
