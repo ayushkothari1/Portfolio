@@ -213,7 +213,9 @@ body {
     linear-gradient(var(--bg), var(--bg)) padding-box,
     linear-gradient(135deg, var(--accent), var(--cyan)) border-box;
   box-shadow: 0 0 12px rgba(124, 58, 237, 0.45);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
   flex-shrink: 0;
 }
 .nav-logo:hover .nav-avatar {
@@ -248,11 +250,32 @@ body {
   border-radius: 2px;
   transition: width var(--transition);
 }
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active-link {
   color: #fff;
 }
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active-link::after {
   width: 100%;
+}
+
+/* ─── SCROLL PROGRESS BAR ────────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--cyan),
+    var(--accent2)
+  );
+  z-index: 2000;
+  transition: width 0.1s linear;
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.7);
 }
 
 .hamburger {
@@ -399,7 +422,7 @@ body {
   max-width: 520px;
   margin: 0 auto 2.5rem;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }
 .hero-desc strong {
   color: var(--text);
