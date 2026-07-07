@@ -1,7 +1,7 @@
 /* ============================================================
    script.js – Portfolio JavaScript
    ============================================================ */
-
+//
 // ─── FORMSUBMIT CONFIG ───────────────────────────────────────
 // Emails go to pahadiayush61@gmail.com via Formsubmit.co (no account needed)
 // First submission triggers a one-time activation email — just click the link!
